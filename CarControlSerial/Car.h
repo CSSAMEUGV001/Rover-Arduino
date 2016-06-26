@@ -18,8 +18,6 @@ class Car
       steer.attach(steeringPin);
       throttle.attach(throttlePin);
 
-      steeringOn = true;
-
       this->neutralValue = neutralValue;
     }
 
@@ -28,12 +26,6 @@ class Car
     {
       this->setSteering(neutralValue);
       this->setThrottle(neutralValue);
-    }
-
-    //Switches between steering and throttle mode
-    void switchMode()
-    {
-      steeringOn = !steeringOn;
     }
 
     //Sets the throttle over time instead of right away
@@ -92,13 +84,6 @@ class Car
       steer.write(value);
     }
 
-    //True means steering is on
-    //False means throttle is on
-    bool getMode() const
-    {
-      return steeringOn;
-    }
-
     #ifdef DEBUG
     //Used to tell user input is out of range
     void outputError(const int& badValue, const int& newValue) const
@@ -129,7 +114,6 @@ class Car
 
   private:
     int neutralValue;
-    bool steeringOn;
     Servo steer;
     Servo throttle;
 
