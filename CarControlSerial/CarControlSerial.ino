@@ -19,35 +19,26 @@ void setup()
 
 void loop()
 {
-  int input;
+  int steerValue;
+  int throttleValue;
 
   if (Serial.available() > 0)
   {
     // read the incoming data and parse it as an int
-    input = Serial.parseInt();
+    steerValue = Serial.parseInt();
+    throttleValue = Serial.parseInt();
 
-    if (input == 0)
+    if (steerValue < 0 || throttleValue < 0)
     {
       car.goNeutral();
       Serial.write("Car set to neutral\n");
     }
-
-    else if (input < 0)
-    {
-      car.switchMode();
-      Serial.write(("Switching to " + String(car.getMode() ? "Steer" : "Throttle") + "\n").c_str());
-    }
-
-    else if (car.getMode())
-    {
-      car.setSteering(input);
-      Serial.write(("Steering: " + String(input) + "\n").c_str());
-    }
-
     else
     {
-      car.setThrottle(input);
-      Serial.write(("Throttle: " + String(input) + "\n").c_str());
+      car.setSteering(steerValue);
+      car.setThrottle(throttleValue);
+      Serial.write(("Steering: " + String(steerValue)
+                    + "\nThrottle: " +  String(throttleValue) + "\n").c_str());
     }
   }
 }
