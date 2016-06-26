@@ -1,4 +1,5 @@
 #include <Servo.h>
+#include "Define.h"
 
 class Car
 {
@@ -40,12 +41,16 @@ class Car
     {
       if (value < MIN_THROTTLE)
       {
+        #ifdef DEBUG
         outputError(value, MIN_THROTTLE);
+        #endif
         value = MIN_THROTTLE;
       }
       else if (value > MAX_THROTTLE)
       {
+        #ifdef DEBUG
         outputError(value, MAX_THROTTLE);
+        #endif
         value = MAX_THROTTLE;
       }
 
@@ -70,13 +75,17 @@ class Car
     {
       if (value > MAX_STEER)
       {
+        #ifdef DEBUG
         outputError(value, MAX_STEER);
+        #endif
         value = MAX_STEER;
       }
 
       else if (value < MIN_STEER)
       {
+        #ifdef DEBUG
         outputError(value, MIN_STEER);
+        #endif
         value = MIN_STEER;
       }
 
@@ -90,11 +99,13 @@ class Car
       return steeringOn;
     }
 
+    #ifdef DEBUG
     //Used to tell user input is out of range
     void outputError(const int& badValue, const int& newValue) const
     {
       Serial.write((String(badValue) + " is not within range. Setting to " + newValue + ".\n").c_str());
     }
+    #endif
 
     //Loops until passed in amount of milliseconds have passed
     void wait(const unsigned long& timeToWait)
