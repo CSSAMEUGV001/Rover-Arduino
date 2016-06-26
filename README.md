@@ -1,8 +1,9 @@
 # Rover-Arduino
 
 ## How to control rover over serial
-1. Wire the car up properly
+1. Wire the rover properly
   * Get help if you don't know how
+  * *DO NOT* take this step lightly. A misplaced cable can be very dangerous
 2. Open CarControlSerial.ino in Arduino IDE
 3. Decide whether you want debug output or not
   * If yes, continue to the next step
