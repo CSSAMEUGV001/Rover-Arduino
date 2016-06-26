@@ -7,6 +7,6 @@
   * Else, open Define.h and comment out the define
 3. Upload to the Uno
 2. Turn on the car
-3. Enter your commands. The format is "<Steering Value><White Space><Throttle Value>"
+3. Enter your commands. The format is: "\<Steering Value>\<White Space>\<Throttle Value>"
   * Enter a negative value on either side to set the car to neutral
   * Leaving off throttle value will cause it to be read as 0
