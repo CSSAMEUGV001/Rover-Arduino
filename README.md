@@ -12,7 +12,7 @@
 4. Upload to the Uno
   * If this is giving you problems, go to Tools>Ports and select the port that shows your Uno on it
 5. Turn on the car and wait for it stop beeping
-  * If it does not stop beeping within a few seconds, you did something wrong in step 1
+  * If it does not stop beeping within a few seconds, you did something wrong. Most likely step 1
   * The car will beep every once in a while. This is normal behavior
 6. Click the magnifying glass icon in the top right to open the Serial Monitor
 7. Enter your commands. The format is: "\<Steering Value>\<White Space>\<Throttle Value>"
