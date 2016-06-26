@@ -1,4 +1,5 @@
 #include <Servo.h>
+#include "Define.h"
 
 class Car
 {
@@ -8,7 +9,9 @@ class Car
            ABS_MAX_STEER(140), ABS_MIN_STEER(53),
            MAX_THROTTLE(105), MIN_THROTTLE(75),
            MAX_STEER(ABS_MAX_STEER), MIN_STEER(ABS_MIN_STEER)
-    {}
+    {
+      neutralValue = 0;
+    }
 
     //Arduino has issues with placing code in the constructor so we use this 
     //  to initialize instead
@@ -16,8 +19,6 @@ class Car
     {
       steer.attach(steeringPin);
       throttle.attach(throttlePin);
-
-      steeringOn = true;
 
       this->neutralValue = neutralValue;
     }
@@ -29,23 +30,21 @@ class Car
       this->setThrottle(neutralValue);
     }
 
-    //Switches between steering and throttle mode
-    void switchMode()
-    {
-      steeringOn = !steeringOn;
-    }
-
     //Sets the throttle over time instead of right away
     void setThrottle(int value)
     {
       if (value < MIN_THROTTLE)
       {
+        #ifdef DEBUG
         outputError(value, MIN_THROTTLE);
+        #endif
         value = MIN_THROTTLE;
       }
       else if (value > MAX_THROTTLE)
       {
+        #ifdef DEBUG
         outputError(value, MAX_THROTTLE);
+        #endif
         value = MAX_THROTTLE;
       }
 
@@ -70,31 +69,30 @@ class Car
     {
       if (value > MAX_STEER)
       {
+        #ifdef DEBUG
         outputError(value, MAX_STEER);
+        #endif
         value = MAX_STEER;
       }
 
       else if (value < MIN_STEER)
       {
+        #ifdef DEBUG
         outputError(value, MIN_STEER);
+        #endif
         value = MIN_STEER;
       }
 
       steer.write(value);
     }
 
-    //True means steering is on
-    //False means throttle is on
-    bool getMode() const
-    {
-      return steeringOn;
-    }
-
+    #ifdef DEBUG
     //Used to tell user input is out of range
     void outputError(const int& badValue, const int& newValue) const
     {
       Serial.write((String(badValue) + " is not within range. Setting to " + newValue + ".\n").c_str());
     }
+    #endif
 
     //Loops until passed in amount of milliseconds have passed
     void wait(const unsigned long& timeToWait)
@@ -118,7 +116,6 @@ class Car
 
   private:
     int neutralValue;
-    bool steeringOn;
     Servo steer;
     Servo throttle;
 
