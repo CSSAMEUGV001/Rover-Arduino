@@ -9,7 +9,9 @@ class Car
            ABS_MAX_STEER(140), ABS_MIN_STEER(53),
            MAX_THROTTLE(105), MIN_THROTTLE(75),
            MAX_STEER(ABS_MAX_STEER), MIN_STEER(ABS_MIN_STEER)
-    {}
+    {
+      neutralValue = 0;
+    }
 
     //Arduino has issues with placing code in the constructor so we use this 
     //  to initialize instead
