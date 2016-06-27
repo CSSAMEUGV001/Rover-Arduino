@@ -2,9 +2,17 @@
 
 Car car;
 
+//This will run once at startup
 void setup()
 {
+  /* Inits the car using:
+   *  Pin 10 for steering
+   *  Pin 11 for throttle
+   *  90 for the neutral value
+   */
   car.InitCar(10, 11, 90);
+
+  //Sets steering and throttle to neutral
   car.goNeutral();
   
   //Enable serial data transfer
@@ -20,17 +28,21 @@ void setup()
   #endif
 }
 
+//This will loop endlessly as long as the arduino is powered
 void loop()
 {
+  //Variables to store serial input
   int steerValue;
   int throttleValue;
 
+  //Check if there is any data waiting in the Serial buffer
   if (Serial.available() > 0)
   {
-    // read the incoming data and parse it as an int
+    //Read the incoming data and parse it as an int
     steerValue = Serial.parseInt();
     throttleValue = Serial.parseInt();
 
+    //If either is a negative number, set car to neutral
     if (steerValue < 0 || throttleValue < 0)
     {
       car.goNeutral();
@@ -39,7 +51,7 @@ void loop()
       Serial.write("Car set to neutral\n");
       #endif
     }
-    else
+    else //Use those values as the new values for the steering and throttle
     {
       car.setSteering(steerValue);
       car.setThrottle(throttleValue);

@@ -1,4 +1,5 @@
 #include <Servo.h>
+
 #include "Define.h"
 
 class Car
@@ -17,6 +18,7 @@ class Car
     //  to initialize instead
     void InitCar(const int& steeringPin, const int& throttlePin, const int& neutralValue)
     {
+      //Attaches the pins to the servo objects
       steer.attach(steeringPin);
       throttle.attach(throttlePin);
 
@@ -33,6 +35,8 @@ class Car
     //Sets the throttle over time instead of right away
     void setThrottle(int value)
     {
+      //Check that value is within a valid range
+      //  If not, correct it
       if (value < MIN_THROTTLE)
       {
         #ifdef DEBUG
@@ -48,8 +52,11 @@ class Car
         value = MAX_THROTTLE;
       }
 
+      //Reads the current value from the throttle
       int currentVal = throttle.read();
 
+      //Checks whether the value needs to be increased or decreased
+      //  Then uses a for loop to change the value over time
       if (value > currentVal)
         for (currentVal; currentVal <= value; currentVal++)
         {
@@ -67,6 +74,8 @@ class Car
     //Sets steering value
     void setSteering(int value)
     {
+      //Checks that value is within a valid range
+      //  If not, correct it
       if (value > MAX_STEER)
       {
         #ifdef DEBUG
@@ -74,7 +83,6 @@ class Car
         #endif
         value = MAX_STEER;
       }
-
       else if (value < MIN_STEER)
       {
         #ifdef DEBUG
@@ -97,9 +105,10 @@ class Car
     //Loops until passed in amount of milliseconds have passed
     void wait(const unsigned long& timeToWait)
     {
-      unsigned long currentTime = millis();
+      unsigned long time = millis();
 
-      while( millis() - currentTime < timeToWait) {}
+      //While time passed is less than timeToWait, continue to loop
+      while( millis() - time < timeToWait ) {}
     }
 
     //Absoulte limits imposed by the hardware on the throttle and steering
