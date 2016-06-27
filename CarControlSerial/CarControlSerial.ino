@@ -23,8 +23,7 @@ void setup()
                 + String(car.MIN_STEER) + "-" + car.MAX_STEER
                 + "\tThrottle range: "
                 + car.MIN_THROTTLE + "-" + car.MAX_THROTTLE
-                + "\nUse 0 to set both steering and throttle to neutral\n"
-                  "Use any negative number to switch between steering and throttle mode\n\n").c_str());
+                + "\nEnter your commands. The format is: <Steering Value><White Space><Throttle Value>\n\n").c_str());
   #endif
 }
 
