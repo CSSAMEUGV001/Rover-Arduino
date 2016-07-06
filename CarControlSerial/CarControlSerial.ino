@@ -57,7 +57,7 @@ void loop()
 
       #ifdef DEBUG
       Serial.write(("Steering: " + String(steerValue)
-                    + "\nThrottle: " +  String(throttleValue) + "\n").c_str());
+                    + "\tThrottle: " +  String(throttleValue) + "\n").c_str());
       #endif
     }
   }
