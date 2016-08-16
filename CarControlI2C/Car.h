@@ -6,7 +6,7 @@ class Car
     //Constructor
     Car(): ABS_MAX_THROTTLE(140), ABS_MIN_THROTTLE(40),
            ABS_MAX_STEER(140), ABS_MIN_STEER(53),
-           MAX_THROTTLE(105), MIN_THROTTLE(75),
+           MAX_THROTTLE(115), MIN_THROTTLE(65),
            MAX_STEER(ABS_MAX_STEER), MIN_STEER(ABS_MIN_STEER)
     {
       neutralValue = 0;
