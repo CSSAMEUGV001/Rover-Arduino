@@ -6,7 +6,6 @@ class Car
     //Constructor
     Car(): ABS_MAX_THROTTLE(140), ABS_MIN_THROTTLE(40),
            ABS_MAX_STEER(140), ABS_MIN_STEER(53),
-           MAX_THROTTLE(115), MIN_THROTTLE(65),
            MAX_STEER(ABS_MAX_STEER), MIN_STEER(ABS_MIN_STEER)
     {
       neutralValue = 0;
@@ -21,6 +20,9 @@ class Car
       throttle.attach(throttlePin);
 
       this->neutralValue = neutralValue;
+
+      minThrottle = 80;
+      maxThrottle = 100;      
     }
 
     //Sets throttle and steering to neutral
@@ -35,30 +37,16 @@ class Car
     {
       //Check that value is within a valid range
       //  If not, correct it
-      if (value < MIN_THROTTLE)
+      if (value < minThrottle)
       {
-        value = MIN_THROTTLE;
+        value = minThrottle;
       }
-      else if (value > MAX_THROTTLE)
+      else if (value > maxThrottle)
       {
-        value = MAX_THROTTLE;
+        value = maxThrottle;
       }
 
-      //Reads the current value from the throttle
-      int currentVal = throttle.read();
-
-      //Checks whether the value needs to be increased or decreased
-      //  Then uses a for loop to change the value over time
-      if (value > currentVal)
-        for (currentVal; currentVal <= value; currentVal++)
-        {
-          throttle.write(currentVal);
-        }
-      else
-        for (currentVal; currentVal >= value; currentVal--)
-        {
-          throttle.write(currentVal);
-        }
+      throttle.write(value);
     }
 
     //Sets steering value
@@ -88,20 +76,40 @@ class Car
       return throttle.read();
     }
 
+    void setMinThrottle(const int& value)
+    {
+      minThrottle = value;
+    }
+
+    void setMaxThrottle(const int& value)
+    {
+      maxThrottle = value;
+    }
+
+    int getMinThrottle() const
+    {
+      return minThrottle;
+    }
+
+    int getMaxThrottle() const
+    {
+      return maxThrottle;
+    }
+
     //Absoulte limits imposed by the hardware on the throttle and steering
     const int ABS_MAX_THROTTLE;  //Forward
     const int ABS_MIN_THROTTLE;  //Reverse
     const int ABS_MAX_STEER;     //Left
     const int ABS_MIN_STEER;     //Right
 
-    //Limits imposed by the user on the throttle and steering
-    const int MAX_THROTTLE;
-    const int MIN_THROTTLE;
+    //Limits imposed by the user on steering
     const int MAX_STEER;
     const int MIN_STEER;
 
   private:
     int neutralValue;
+    int maxThrottle;
+    int minThrottle;
     Servo steer;
     Servo throttle;
 };
