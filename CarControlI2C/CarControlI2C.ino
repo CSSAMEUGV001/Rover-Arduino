@@ -4,9 +4,30 @@
 
 const int POT_PIN = 0;
 const int NEUTRAL_VALUE = 90;
+const int SAMPLES = 10;
+int steeringSamples[SAMPLES];
+int throttleSamples[SAMPLES];
+int potSamples[SAMPLES];
+int wireIndex;
+int potIndex;
 Car car;
 
+int average(int ar[SAMPLES]){
+  int sum = 0;
+  for(int i = 0; i < SAMPLES; i++){
+    sum += ar[i];
+  }
+  return sum/SAMPLES;
+}
+
 void setup() {
+  wireIndex = 0;
+  potIndex = 0;
+  for(int i = 0; i < SAMPLES; i++){
+    steeringSamples[i] = 0;
+    throttleSamples[i] = 0;
+    potSamples[i] = 0;
+  }
   Wire.begin(0x2a);             
   Wire.onReceive(receiveEvent);
   //Serial.begin(9600);
@@ -28,6 +49,11 @@ void loop() {}
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany) {
   int value = analogRead(POT_PIN);
+  
+  potSamples[potIndex] = value;
+  value = average(potSamples);
+  potIndex++;
+  potIndex %= SAMPLES;
 
   int maxT = NEUTRAL_VALUE + (value/1023.0 * 50);
   int minT = NEUTRAL_VALUE - (value/1023.0 * 50);
@@ -43,6 +69,14 @@ void receiveEvent(int howMany) {
   {
     int steering = Wire.read();
     int throttle = Wire.read();
+    
+    steeringSamples[wireIndex] = steering;
+    throttleSamples[wireIndex] = throttle;
+    wireIndex++;
+    wireIndex %= SAMPLES;
+    
+    steering = average(steeringSamples);
+    throttle = average(throttleSamples);
 
     if(car.getSteering() != steering)
       car.setSteering(steering);
